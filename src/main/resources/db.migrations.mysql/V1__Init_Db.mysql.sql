@@ -3,7 +3,7 @@ CREATE TABLE booking
     id             INT AUTO_INCREMENT NOT NULL,
     created_at     datetime           NOT NULL,
     updated_at     datetime           NOT NULL,
-    booking_status Enum('SCHEDULED','CANCELLED','CAB_ARRIVED','ASSIGNING_DRIVER','IN_RIDE','COMPLETED')      NULL,
+    booking_status Enum('SCHEDULED','CANCELLED','CAB_ARRIVED','ASSIGNING_DRIVER','IN_RIDE','COMPLETED')       NULL,
     start_time     datetime           NULL,
     end_time       datetime           NULL,
     total_distance BIGINT             NULL,
@@ -29,6 +29,8 @@ CREATE TABLE passenger
     created_at datetime           NOT NULL,
     updated_at datetime           NOT NULL,
     name       VARCHAR(255)       NOT NULL,
+    email      VARCHAR(255)       NOT NULL,
+    password   VARCHAR(255)       NOT NULL,
     CONSTRAINT pk_passenger PRIMARY KEY (id)
 );
 
