@@ -19,8 +19,11 @@ public class authController {
     private AuthService authService;
 
     @PostMapping("/signup/passenger")
-    public ResponseEntity<passengerDto> signupPassenger(@RequestBody passengerSignUpRequestDto passengerSignUpDto) {
+    public ResponseEntity<?> signupPassenger(@RequestBody passengerSignUpRequestDto passengerSignUpDto) {
         passengerDto passenger = authService.signupPassenger(passengerSignUpDto);
+        if(passenger == null){
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.ok(passenger);
     }
 }
