@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.List;
 
-@Service
+
 public class passengerAuthDetails extends passenger implements UserDetails {
     private final String username;
     private final String password;

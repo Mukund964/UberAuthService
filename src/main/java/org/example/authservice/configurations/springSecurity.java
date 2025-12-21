@@ -28,7 +28,7 @@ public class springSecurity implements WebMvcConfigurer {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(Request -> Request
                                 .requestMatchers("/api/v1/auth/signup/*").permitAll()
-                        .requestMatchers("/api/v1/auth/signin/*").permitAll()
+                        .requestMatchers("/api/v1/auth/signIn/*").permitAll()
                 )
                 .build();
     }

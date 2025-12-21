@@ -1,7 +1,6 @@
 package org.example.authservice.Services;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,17 +9,13 @@ import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
-import java.security.Key;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import static java.security.KeyRep.Type.SECRET;
-
 @Service
-public class jwtService implements CommandLineRunner {
+public class JwtService implements CommandLineRunner {
 
     @Value("${jwt.expiry}")
     private int expiry;
@@ -28,7 +23,7 @@ public class jwtService implements CommandLineRunner {
     private String SECRET_KEY;
 
 
-    private String tokenCreation(Map<String, Object> payload, String username) {
+    public String tokenCreation(Map<String, Object> payload, String username) {
         Date now = new Date();
         Date expiration = new Date(now.getTime() + expiry);
 
@@ -41,6 +36,10 @@ public class jwtService implements CommandLineRunner {
                 .signWith(key)
                 .compact();
 
+    }
+    public String tokenCreationWithoutMap(String username){
+        Map<String, Object> payload = new HashMap<>();
+        return tokenCreation(payload,username);
     }
     private Claims extractAllPayload(String token) {
         return Jwts.parser().verifyWith(getSecretKey()).build().parseSignedClaims(token).getPayload();
@@ -83,8 +82,8 @@ public class jwtService implements CommandLineRunner {
         Map<String, Object> mp = new HashMap<>();
         mp.put("email", "a@b.com");
         mp.put("phoneNumber", "9999999999");
-        String result = tokenCreation(mp, "abc");
-        System.out.println("Generated token is: " + result);
-        System.out.println(extractPayload(result, "email").toString());
+//        String result = tokenCreation(mp, "abc");
+//        System.out.println("Generated token is: " + result);
+//        System.out.println(extractPayload(result, "email").toString());
     }
 }
