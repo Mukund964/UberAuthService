@@ -1,5 +1,6 @@
 package org.example.authservice.controllers;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.authservice.Services.AuthService;
@@ -15,10 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -48,7 +46,7 @@ public class authController {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(passengerSignInDto.getEmail(), passengerSignInDto.getPassword()));
         if(authentication.isAuthenticated()){
             String jwtToken = jwtService.tokenCreationWithoutMap(passengerSignInDto.getEmail());
-            ResponseCookie cookie = ResponseCookie.from("JWT", jwtToken)
+            ResponseCookie cookie = ResponseCookie.from("JWT_TOKEN", jwtToken)
                     .httpOnly(true)
                     .secure(false)
                     .path("/")
@@ -62,5 +60,16 @@ public class authController {
             return ResponseEntity.badRequest().build();
 
         }
+    }
+
+    @GetMapping("/validate")
+    public ResponseEntity<?> validatePassenger(HttpServletRequest request) {
+        for(Cookie cookie : request.getCookies()){
+            if(cookie.getName().equals("JWT_TOKEN")){
+                System.out.println(cookie.getValue());
+                return ResponseEntity.ok(cookie.getValue());
+            }
+        }
+        return ResponseEntity.badRequest().build();
     }
 }

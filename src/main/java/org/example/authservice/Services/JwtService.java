@@ -54,16 +54,16 @@ public class JwtService implements CommandLineRunner {
         return extractClaim(token,Claims::getExpiration);
     }
 
-    private Boolean isTokenValid(String token, String email) {
+    public Boolean isTokenValid(String token, String email) {
         final String emailFetchedFromToken = extractEmail(token);
         return emailFetchedFromToken.equals(email);
     }
 
-    private String extractEmail(String token) {
+    public String extractEmail(String token) {
         return extractClaim(token,Claims::getSubject);
     }
 
-    private Boolean isTokenExpired(String token) {
+    public Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
