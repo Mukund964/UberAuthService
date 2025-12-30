@@ -35,5 +35,7 @@ public class passenger extends BaseModel {
     // Booking --> passenger
     @OneToMany(mappedBy = "passenger")
     @Fetch(FetchMode.SUBSELECT)
+
+    @Builder.Default
     private List<Booking> Bookings = new ArrayList<>();
 }
